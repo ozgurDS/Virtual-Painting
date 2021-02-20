@@ -6,16 +6,13 @@ cap.set(3,450)   #Changing width to 640
 cap.set(4,450)   #Changing height to 480
 cap.set(10,100)  #Changing brightness to 100
 
-"""Creating track bars to play around the HSV values real time 
-to determine the HSV values of the red color of the car"""
+"""Creating trackbars to detect the HSV properties of the color we want to use"""
 
 def empty():
     pass
 
 cv2.namedWindow("HSV")
 cv2.resizeWindow("HSV", 640, 240)
-
-"""Creating trackbars and threshold values (already adjusted after using the mask)"""
 
 cv2.createTrackbar("Hue Min", "HSV", 0, 179, empty)
 cv2.createTrackbar("Sat Min", "HSV", 0, 255, empty)
@@ -39,13 +36,13 @@ while True:
     v_max = cv2.getTrackbarPos("Val Max", "HSV")
     print(h_min,s_min,v_min,h_max,s_max,v_max)
 
-    """Creating a mask to determine the HSV values of the red color of the car"""
+    """Creating a mask of the color we detected"""
 
     lower = np.array([h_min, s_min, v_min])
     upper = np.array([h_max, s_max, v_max])
     img_mask = cv2.inRange(img_hsv, lower, upper)
 
-    """Getting the red color of the car using bitwise and operator"""
+    """Getting the colored mask using 'bitwise and' operator"""
     img_result = cv2.bitwise_and(img,img, mask= img_mask)
 
     cv2.imshow("Original", img)
